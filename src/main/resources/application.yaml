@@ -1,0 +1,22 @@
+
+
+spring:
+  application:
+    name: query-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: chedly
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  cloud:
+    config:
+      enabled: false
+
+server:
+    port: ${SERVER_PORT:9005}
