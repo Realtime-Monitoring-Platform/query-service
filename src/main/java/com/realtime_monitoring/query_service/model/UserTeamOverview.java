@@ -25,7 +25,7 @@ import lombok.Setter;
 
 
 @Entity
-@Table(name="user_teams")
+@Table(name="user_teams_Overview")
 @Getter
 @Setter
 @AllArgsConstructor

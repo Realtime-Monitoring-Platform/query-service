@@ -10,7 +10,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="permissions")
+@Table(name="permission_overviews")
 @AllArgsConstructor
 @NoArgsConstructor
 public class PermissionOverview extends BaseEntityOverview {

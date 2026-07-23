@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users_Overview")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -56,7 +56,7 @@ public class UserOverview extends BaseEntityOverview {
 
     private UUID teamId;
     private String teamName;
-    
+
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleOverview> roles = new HashSet();

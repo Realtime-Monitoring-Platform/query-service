@@ -28,7 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tenant")
+@Table(name = "tenant_Overview")
 @EntityListeners(AuditingEntityListener.class)
 @Builder
 public class TenantOverview {

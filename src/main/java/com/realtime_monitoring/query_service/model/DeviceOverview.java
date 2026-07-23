@@ -20,7 +20,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "device")
+@Table(name = "device_Overview")
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -33,7 +33,7 @@ public class DeviceOverview {
     private UUID tenantId;
     private String tenantName;
 
-    
+
     private UUID teamId;
     private String teamName;
 

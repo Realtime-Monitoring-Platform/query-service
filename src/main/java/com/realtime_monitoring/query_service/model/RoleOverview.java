@@ -17,7 +17,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name="roles")
+@Table(name="roles_Overview")
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoleOverview extends BaseEntityOverview{
