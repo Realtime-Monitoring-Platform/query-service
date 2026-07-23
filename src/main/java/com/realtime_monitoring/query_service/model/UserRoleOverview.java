@@ -1,4 +1,4 @@
-package com.realtime_monitoring.query_service.modelt;
+package com.realtime_monitoring.query_service.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,14 +16,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRole extends BaseEntity {
+public class UserRoleOverview extends BaseEntityOverview {
     
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    private User user;
+    private UserOverview user;
 
     @ManyToOne
     @JoinColumn(name="role_id")
-    private Role role;
+    private RoleOverview role;
 }

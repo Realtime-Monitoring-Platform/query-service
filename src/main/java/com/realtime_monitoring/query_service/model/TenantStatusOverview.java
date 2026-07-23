@@ -1,5 +1,5 @@
-package com.realtime_monitoring.query_service.modelt;
-public enum TenantStatus {
+package com.realtime_monitoring.query_service.model;
+public enum TenantStatusOverview {
     ACTIVE,
     SUSPENDED
 }

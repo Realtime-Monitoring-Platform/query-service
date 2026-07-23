@@ -1,4 +1,4 @@
-package com.realtime_monitoring.query_service.modelt;
+package com.realtime_monitoring.query_service.model;
 import jakarta.persistence.Entity;
 
 import jakarta.persistence.Table;
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Table(name="permissions")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Permission extends BaseEntity {
+public class PermissionOverview extends BaseEntityOverview {
     
 
     private String name;

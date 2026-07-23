@@ -1,4 +1,4 @@
-package com.realtime_monitoring.query_service.modelt;
+package com.realtime_monitoring.query_service.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -31,7 +31,7 @@ import lombok.Setter;
 @Table(name = "tenant")
 @EntityListeners(AuditingEntityListener.class)
 @Builder
-public class Tenant {
+public class TenantOverview {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -46,7 +46,7 @@ public class Tenant {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TenantStatus status;
+    private TenantStatusOverview status;
 
     @Column(unique = true)
     private String email;

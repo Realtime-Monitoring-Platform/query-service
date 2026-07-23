@@ -1,4 +1,4 @@
-package com.realtime_monitoring.query_service.modelt;
+package com.realtime_monitoring.query_service.model;
 
 import java.time.LocalDateTime;
 

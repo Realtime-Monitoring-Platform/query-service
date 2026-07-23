@@ -1,4 +1,4 @@
-package com.realtime_monitoring.query_service.modelt;
+package com.realtime_monitoring.query_service.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -24,7 +24,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Device {
+public class DeviceOverview {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -53,7 +53,7 @@ public class Device {
     private String location;
 
     @Enumerated(EnumType.STRING)
-    private DeviceStatus status;
+    private DeviceStatusOverview status;
 
     private LocalDateTime lastSeen;
 

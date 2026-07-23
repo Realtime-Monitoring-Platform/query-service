@@ -1,5 +1,5 @@
-package com.realtime_monitoring.query_service.modelt;
-public enum UserStatus {
+package com.realtime_monitoring.query_service.model;
+public enum UserStatusOverview {
     ACTIVE,
     INACTIVE
 }

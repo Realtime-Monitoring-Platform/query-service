@@ -1,5 +1,5 @@
-package com.realtime_monitoring.query_service.modelt;
-public enum DeviceStatus {
+package com.realtime_monitoring.query_service.model;
+public enum DeviceStatusOverview {
     ONLINE,
     OFFLINE,
     REGISTERING,
