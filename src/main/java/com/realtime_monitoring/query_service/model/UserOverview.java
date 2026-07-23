@@ -48,10 +48,15 @@ public class UserOverview extends BaseEntityOverview {
     @Enumerated(EnumType.STRING)
     private UserStatusOverview status;
 
-    //private LocalDateTime lastLogin;
+    private LocalDateTime lastLogin;
+
 
     private UUID tenantId;
+    private String tenantName;
 
+    private UUID teamId;
+    private String teamName;
+    
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleOverview> roles = new HashSet();

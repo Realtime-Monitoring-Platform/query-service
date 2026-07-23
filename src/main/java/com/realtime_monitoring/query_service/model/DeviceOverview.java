@@ -31,10 +31,16 @@ public class DeviceOverview {
 
     @Column(nullable = false)
     private UUID tenantId;
+    private String tenantName;
 
+    
     private UUID teamId;
+    private String teamName;
 
     private UUID assignedUserId;
+    private String assignedUserName;
+
+
 
     @Column(nullable = false)
     private String deviceName;
