@@ -1,5 +1,4 @@
-package com.realtime_monitoring.query_service.model;
-
+package com.realtime_monitoring.user_manag.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -26,7 +25,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntityOverview {
+public abstract class BaseEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
