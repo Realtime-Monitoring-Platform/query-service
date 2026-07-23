@@ -5,7 +5,7 @@ spring:
     name: query-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/read_database
     username: postgres
     password: chedly
   jpa:

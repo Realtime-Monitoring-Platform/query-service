@@ -1,6 +1,5 @@
 package com.realtime_monitoring.query_service.model;
 
-package com.realtime_monitoring.user_manag.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
