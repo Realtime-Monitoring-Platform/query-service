@@ -4,6 +4,8 @@ import com.realtime_monitoring.query_service.event.TeamCreatedEvent;
 import com.realtime_monitoring.query_service.model.TeamOverview;
 import com.realtime_monitoring.query_service.repository.TeamOverviewRepository;
 import com.realtime_monitoring.query_service.service.ProjectionService;
+
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
@@ -37,5 +39,11 @@ public class TeamCreatedEventConsumer extends BaseEventConsumer<TeamCreatedEvent
     @Override
     protected String getEventType() {
         return "TEAM_CREATED";
+    }
+
+    @Override
+    public void onMessage(ConsumerRecord<String, TeamCreatedEvent> data) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onMessage'");
     }
 }

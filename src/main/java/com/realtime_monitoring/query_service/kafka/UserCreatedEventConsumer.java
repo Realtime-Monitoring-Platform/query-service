@@ -5,6 +5,8 @@ import com.realtime_monitoring.query_service.model.UserOverview;
 import com.realtime_monitoring.query_service.model.UserStatusOverview;
 import com.realtime_monitoring.query_service.repository.UserOverviewRepository;
 import com.realtime_monitoring.query_service.service.ProjectionService;
+
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
@@ -46,4 +48,11 @@ public class UserCreatedEventConsumer extends BaseEventConsumer<UserCreatedEvent
     protected String getEventType() {
         return "USER_CREATED";
     }
+
+    @Override
+    public void onMessage(ConsumerRecord<String, UserCreatedEvent> data) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onMessage'");
+    }
+    
 }

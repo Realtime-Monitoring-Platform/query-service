@@ -5,6 +5,8 @@ import com.realtime_monitoring.query_service.model.TenantOverview;
 import com.realtime_monitoring.query_service.model.TenantStatusOverview;
 import com.realtime_monitoring.query_service.repository.TenantOverviewRepository;
 import com.realtime_monitoring.query_service.service.ProjectionService;
+
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
@@ -40,5 +42,11 @@ public class TenantCreatedEventConsumer extends BaseEventConsumer<TenantCreatedE
     @Override
     protected String getEventType() {
         return "TENANT_CREATED";
+    }
+
+    @Override
+    public void onMessage(ConsumerRecord<String, TenantCreatedEvent> data) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onMessage'");
     }
 }

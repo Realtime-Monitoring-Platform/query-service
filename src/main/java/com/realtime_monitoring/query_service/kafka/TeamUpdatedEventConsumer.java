@@ -4,6 +4,8 @@ import com.realtime_monitoring.query_service.event.TeamUpdatedEvent;
 import com.realtime_monitoring.query_service.model.TeamOverview;
 import com.realtime_monitoring.query_service.repository.TeamOverviewRepository;
 import com.realtime_monitoring.query_service.service.ProjectionService;
+
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
@@ -38,5 +40,11 @@ public class TeamUpdatedEventConsumer extends BaseEventConsumer<TeamUpdatedEvent
     @Override
     protected String getEventType() {
         return "TEAM_UPDATED";
+    }
+
+    @Override
+    public void onMessage(ConsumerRecord<String, TeamUpdatedEvent> data) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onMessage'");
     }
 }

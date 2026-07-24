@@ -1,5 +1,7 @@
 package com.realtime_monitoring.query_service.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +18,5 @@ public interface UserOverviewRepository extends JpaRepository<UserOverview, UUID
     List<UserOverview> findByTenantId(UUID tenantId);
     boolean existsByEmail(String email);
     boolean existsByUsername(String username);
+    Page<UserOverview> findByTenantId(UUID tenantId, Pageable pageable);
 }

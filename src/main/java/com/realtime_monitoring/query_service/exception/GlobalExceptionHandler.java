@@ -28,6 +28,10 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 HttpStatus.BAD_REQUEST.value()
         );
+    //     private LocalDateTime timestamp;
+    // private String message;
+    // private String details;
+
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
