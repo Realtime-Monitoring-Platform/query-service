@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import com.realtime_monitoring.query_service.event.TenantCreatedEvent;
+import com.realtime_monitoring.query_service.event.TenantDeletedEvent;
 import com.realtime_monitoring.query_service.event.TenantUpdatedEvent;
 import com.realtime_monitoring.query_service.model.TenantOverview;
 import com.realtime_monitoring.query_service.repository.TenantOverviewRepository;
@@ -20,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @KafkaListener(
-    topics = "tenant-events-v4",
+    topics = "tenant-events-v5",
     groupId = "${spring.kafka.consumer.group-id:query-service-group}"
 )
 public class TenantConsumer {
@@ -46,12 +47,23 @@ public class TenantConsumer {
     @KafkaHandler
     public void handleTenantUpdated(@Payload TenantUpdatedEvent event) {
         log.info("Received tenant update event for tenant ID: {} :::::::::::::::::::::::::::::::::::::::::::::", event.id());
+        TenantOverview tenantOverview = tenantOverviewRepository.findById(event.id()).orElse(null);
+        if (tenantOverview != null) {
+            tenantOverview.setName(event.name());
+            tenantOverview.setCompanyName(event.companyName());
+            tenantOverview.setEmail(event.email());
+            tenantOverview.setPhone(event.phone());
+            tenantOverview.setStatus(event.status());
+            tenantOverviewRepository.save(tenantOverview);
+        } else {
+            log.warn("Tenant with ID {} not found for update.", event.id());
+        }
     }
 
     @KafkaHandler
-    public void handleTenantDeleted(@Payload UUID tenantId) {
-        log.info("Received tenant deletion event for tenant ID: {}::::::::::::::::::::::::::::::::::::::", tenantId);
-        tenantOverviewRepository.deleteById(tenantId);
+    public void handleTenantDeleted(@Payload TenantDeletedEvent event) {
+        log.info("Received tenant deletion event for tenant ID: {}::::::::::::::::::::::::::::::::::::::", event.id());
+        tenantOverviewRepository.deleteById(event.id());
     }
 
 

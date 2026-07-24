@@ -26,8 +26,13 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.value.default.type: com.realtime_monitoring.query_service.event.TenantCreatedEvent
+      #  spring.json.value.default.type: com.realtime_monitoring.query_service.event.TenantCreatedEvent
         spring.json.trusted.packages: "*"
+        spring.json.type.mapping: >
+          tenantCreated:com.realtime_monitoring.query_service.event.TenantCreatedEvent,
+          tenantUpdated:com.realtime_monitoring.query_service.event.TenantUpdatedEvent,
+          tenantDeleted:com.realtime_monitoring.query_service.event.TenantDeletedEvent
+
         
 server:
   port: ${SERVER_PORT:9005}
