@@ -3,7 +3,9 @@ package com.realtime_monitoring.query_service.event;
 import java.util.UUID;
 
 public record TenantCreatedEvent(
-    BaseEvent event,
+
+    DomainEvent event,
+    UUID id,
     String name,
     String companyName,
     String email,

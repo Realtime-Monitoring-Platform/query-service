@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface TenantOverviewRepository extends JpaRepository<TenantOverview, UUID> {
-    Optional<TenantOverview> findByName(String name);
-    boolean existsByName(String name);
+    // Optional<TenantOverview> findByName(String name);
+    // boolean existsByName(String name);
 }

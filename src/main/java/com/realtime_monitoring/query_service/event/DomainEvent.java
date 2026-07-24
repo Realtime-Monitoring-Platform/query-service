@@ -3,7 +3,7 @@ package com.realtime_monitoring.query_service.event;
 import java.time.Instant;
 import java.util.UUID;
 
-public record BaseEvent(
+public record DomainEvent(
     UUID eventId,
     String eventType,
     UUID aggregateId,

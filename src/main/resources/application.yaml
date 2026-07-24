@@ -17,28 +17,17 @@ spring:
     config:
       enabled: false
 
+
   kafka:
+    bootstrap-servers: localhost:9092
     consumer:
-      bootstrap-servers: localhost:9092
       group-id: query-service-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "com.realtime_monitoring.query_service.event"
-        spring.json.type.mapping: >
-          user_created:com.realtime_monitoring.query_service.event.UserCreatedEvent,
-          user_updated:com.realtime_monitoring.query_service.event.UserUpdatedEvent,
-          tenant_created:com.realtime_monitoring.query_service.event.TenantCreatedEvent,
-          tenant_updated:com.realtime_monitoring.query_service.event.TenantUpdatedEvent,
-          device_created:com.realtime_monitoring.query_service.event.DeviceCreatedEvent,
-          device_updated:com.realtime_monitoring.query_service.event.DeviceUpdatedEvent,
-          team_created:com.realtime_monitoring.query_service.event.TeamCreatedEvent,
-          team_updated:com.realtime_monitoring.query_service.event.TeamUpdatedEvent
-    producer:
-      bootstrap-servers: localhost:9092
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-
+        spring.json.value.default.type: com.realtime_monitoring.query_service.event.TenantCreatedEvent
+        spring.json.trusted.packages: "*"
+        
 server:
-    port: ${SERVER_PORT:9005}
+  port: ${SERVER_PORT:9005}

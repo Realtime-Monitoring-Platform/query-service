@@ -22,15 +22,15 @@ public class TenantQueryService {
         return tenantOverviewRepository.findById(id);
     }
 
-    public Optional<TenantOverview> getTenantByName(String name) {
-        return tenantOverviewRepository.findByName(name);
-    }
+    // public Optional<TenantOverview> getTenantByName(String name) {
+    //     return tenantOverviewRepository.findByName(name);
+    // }
 
     public Page<TenantOverview> getAllTenants(Pageable pageable) {
         return tenantOverviewRepository.findAll(pageable);
     }
 
-    public boolean existsByName(String name) {
-        return tenantOverviewRepository.existsByName(name);
-    }
+    // public boolean existsByName(String name) {
+    //     return tenantOverviewRepository.existsByName(name);
+    // }
 }

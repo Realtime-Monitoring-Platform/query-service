@@ -16,16 +16,16 @@ public record TenantOverviewResponse(
     LocalDateTime createdAt,
     LocalDateTime updatedAt
 ) {
-    public static TenantOverviewResponse from(TenantOverview tenant) {
-        return new TenantOverviewResponse(
-            tenant.getId(),
-            tenant.getName(),
-            tenant.getPhone(),
-            tenant.getCompanyName(),
-            tenant.getStatus(),
-            tenant.getEmail(),
-            tenant.getCreatedAt(),
-            tenant.getUpdatedAt()
-        );
-    }
+    // public static TenantOverviewResponse from(TenantOverview tenant) {
+    //     return new TenantOverviewResponse(
+    //         tenant.getTenantId(),
+    //         //tenant.getName(),
+    //         tenant.getPhone(),
+    //         tenant.getCompanyName(),
+    //         tenant.getStatus(),
+    //         tenant.getEmail(),
+    //         tenant.getCreatedAt(),
+    //         tenant.getUpdatedAt()
+    //     );
+    // }
 }
