@@ -42,14 +42,12 @@ public class UserOverview extends BaseEntityOverview {
     // private String resetPasswordToken;
 
     // private String verificationToken;
-
     private String Address;
 
     @Enumerated(EnumType.STRING)
     private UserStatusOverview status;
 
     private LocalDateTime lastLogin;
-
 
     private UUID tenantId;
     private String tenantName;

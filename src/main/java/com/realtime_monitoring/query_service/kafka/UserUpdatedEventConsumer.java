@@ -1,0 +1,50 @@
+package com.realtime_monitoring.query_service.kafka;
+
+import com.realtime_monitoring.query_service.event.UserUpdatedEvent;
+import com.realtime_monitoring.query_service.model.UserOverview;
+import com.realtime_monitoring.query_service.model.UserStatusOverview;
+import com.realtime_monitoring.query_service.repository.UserOverviewRepository;
+import com.realtime_monitoring.query_service.service.ProjectionService;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.stereotype.Component;
+
+@Component
+public class UserUpdatedEventConsumer extends BaseEventConsumer<UserUpdatedEvent> {
+
+    private final UserOverviewRepository userOverviewRepository;
+
+    public UserUpdatedEventConsumer(ProjectionService projectionService, UserOverviewRepository userOverviewRepository) {
+        super(projectionService);
+        this.userOverviewRepository = userOverviewRepository;
+    }
+
+    @Override
+    @KafkaListener(topics = EventTopics.USER_UPDATED, groupId = "query-service-group", concurrency = "3")
+    public void onMessage(org.apache.kafka.clients.consumer.ConsumerRecord<String, UserUpdatedEvent> record, Acknowledgment ack) {
+        super.onMessage(record, ack);
+    }
+
+    @Override
+    protected void handleEvent(UserUpdatedEvent event) {
+        UserOverview overview = userOverviewRepository.findById(event.event().aggregateId())
+                .orElse(new UserOverview());
+        overview.setId(event.event().aggregateId());
+        overview.setUsername(event.username());
+        overview.setEmail(event.email());
+        overview.setFirstName(event.firstName());
+        overview.setLastName(event.lastName());
+        overview.setPhone(event.phone());
+        overview.setAvatarUrl(event.avatarUrl());
+        overview.setAddress(event.address());
+        overview.setTenantId(event.tenantId());
+        overview.setTeamId(event.teamId());
+        overview.setStatus(UserStatusOverview.valueOf(event.status()));
+        userOverviewRepository.save(overview);
+    }
+
+    @Override
+    protected String getEventType() {
+        return "USER_UPDATED";
+    }
+}
