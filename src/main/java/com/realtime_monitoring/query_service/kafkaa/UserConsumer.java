@@ -36,39 +36,39 @@ public class UserConsumer {
     private final TenantOverviewRepository tenantRepo;
 
     @KafkaHandler
-public void handleUserCreated(@Payload UserCreatedEvent event) {
-    log.info("Received user creation event for user ID: {}", event.id());
+    public void handleUserCreated(@Payload UserCreatedEvent event) {
+        log.info("Received user creation event for user ID: {}", event.id());
 
-    if (userOverviewRepository.existsById(event.id())) {
-        log.warn("UserOverview {} already exists, skipping duplicate create event.", event.id());
-        return;
+        if (userOverviewRepository.existsById(event.id())) {
+            log.warn("UserOverview {} already exists, skipping duplicate create event.", event.id());
+            return;
+        }
+
+        UserOverview userOverview = new UserOverview();
+        userOverview.setId(event.id());
+        userOverview.setUsername(event.username());
+        userOverview.setEmail(event.email());
+        userOverview.setFirstName(event.firstName());
+        userOverview.setLastName(event.lastName());
+        userOverview.setPhone(event.phone());
+        userOverview.setAvatarUrl(event.avatarUrl());
+        userOverview.setAddress(event.Address());
+        userOverview.setStatus(event.status() != null ? UserStatusOverview.valueOf(event.status()) : null);
+        userOverview.setTenantId(event.tenantId());
+
+        String tenantName = tenantRepo.findById(event.tenantId())
+                .map(TenantOverview::getName)
+                .orElse(null);
+        userOverview.setTenantName(tenantName);
+
+        if (tenantName == null) {
+            log.warn("Tenant {} not found when processing user creation for user {}. TenantName left null.",
+                    event.tenantId(), event.id());
+        }
+
+        log.info("Saving user overview for tenant ID: {}", event.tenantId());
+        userOverviewRepository.save(userOverview);
     }
-
-    UserOverview userOverview = new UserOverview();
-    userOverview.setId(event.id());
-    userOverview.setUsername(event.username());
-    userOverview.setEmail(event.email());
-    userOverview.setFirstName(event.firstName());
-    userOverview.setLastName(event.lastName());
-    userOverview.setPhone(event.phone());
-    userOverview.setAvatarUrl(event.avatarUrl());
-    userOverview.setAddress(event.Address());
-    userOverview.setStatus(event.status() != null ? UserStatusOverview.valueOf(event.status()) : null);
-    userOverview.setTenantId(event.tenantId());
-
-    String tenantName = tenantRepo.findById(event.tenantId())
-            .map(TenantOverview::getName)
-            .orElse(null);
-    userOverview.setTenantName(tenantName);
-
-    if (tenantName == null) {
-        log.warn("Tenant {} not found when processing user creation for user {}. TenantName left null.",
-                event.tenantId(), event.id());
-    }
-
-    log.info("Saving user overview for tenant ID: {}", event.tenantId());
-    userOverviewRepository.save(userOverview);
-}
 
     @KafkaHandler
     public void handleUserUpdated(@Payload UserUpdatedEvent event) {
