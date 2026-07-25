@@ -31,8 +31,11 @@ spring:
         spring.json.type.mapping: >
           tenantCreated:com.realtime_monitoring.query_service.event.TenantCreatedEvent,
           tenantUpdated:com.realtime_monitoring.query_service.event.TenantUpdatedEvent,
-          tenantDeleted:com.realtime_monitoring.query_service.event.TenantDeletedEvent
+          tenantDeleted:com.realtime_monitoring.query_service.event.TenantDeletedEvent,
+          deviceCreated:com.realtime_monitoring.query_service.event.DeviceCreatedEvent,
+          deviceUpdated:com.realtime_monitoring.query_service.event.DeviceUpdatedEvent,
+          deviceDeleted:com.realtime_monitoring.query_service.event.DeviceDeletedEvent
 
         
 server:
-  port: ${SERVER_PORT:9005}
+  port: ${SERVER_PORT:9007}

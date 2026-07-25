@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,16 +24,15 @@ import lombok.Setter;
 @Table(name = "device_Overview")
 @AllArgsConstructor
 @NoArgsConstructor
-
+@EnableJpaAuditing
 public class DeviceOverview {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+   
     private UUID id;
 
-    @Column(nullable = false)
+    
     private UUID tenantId;
     private String tenantName;
-
 
     private UUID teamId;
     private String teamName;

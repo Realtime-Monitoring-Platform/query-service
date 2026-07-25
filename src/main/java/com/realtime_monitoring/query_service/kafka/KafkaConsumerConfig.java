@@ -45,7 +45,13 @@ public class KafkaConsumerConfig {
         // Match the producer's aliases to THIS service's local classes
         props.put(JsonDeserializer.TYPE_MAPPINGS,
                 "tenantCreated:com.realtime_monitoring.query_service.event.TenantCreatedEvent," +
-                        "tenantUpdated:com.realtime_monitoring.query_service.event.TenantUpdatedEvent");
+                "tenantUpdated:com.realtime_monitoring.query_service.event.TenantUpdatedEvent," +
+                "tenantDeleted:com.realtime_monitoring.query_service.event.TenantDeletedEvent,"+
+                "deviceCreated:com.realtime_monitoring.query_service.event.DeviceCreatedEvent," +
+                        "deviceUpdated:com.realtime_monitoring.query_service.event.DeviceUpdatedEvent," +
+                        "deviceDeleted:com.realtime_monitoring.query_service.event.DeviceDeletedEvent"
+
+        );
 
         // Remove VALUE_DEFAULT_TYPE=Object — with type mappings in place you don't need
         // a fallback, and Object would break @KafkaHandler's payload-type dispatch
