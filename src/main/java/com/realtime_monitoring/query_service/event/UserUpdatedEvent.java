@@ -4,14 +4,17 @@ import java.util.UUID;
 
 public record UserUpdatedEvent(
     DomainEvent event,
-    String username,
-    String email,
-    String firstName,
-    String lastName,
-    String phone,
-    String avatarUrl,
-    String address,
-    UUID tenantId,
-    UUID teamId,
-    String status
+     UUID id,
+     String username,
+     String email,
+     String firstName,
+     String lastName,
+     String phone,
+     String avatarUrl,
+     String password,
+     String Address,
+     String status,
+     UUID tenantId,
+     UUID roleId,
+     UUID teamId
 ) {}

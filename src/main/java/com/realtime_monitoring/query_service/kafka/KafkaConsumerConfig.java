@@ -46,10 +46,16 @@ public class KafkaConsumerConfig {
         props.put(JsonDeserializer.TYPE_MAPPINGS,
                 "tenantCreated:com.realtime_monitoring.query_service.event.TenantCreatedEvent," +
                 "tenantUpdated:com.realtime_monitoring.query_service.event.TenantUpdatedEvent," +
-                "tenantDeleted:com.realtime_monitoring.query_service.event.TenantDeletedEvent,"+
+                "tenantDeleted:com.realtime_monitoring.query_service.event.TenantDeletedEvent," +
                 "deviceCreated:com.realtime_monitoring.query_service.event.DeviceCreatedEvent," +
-                        "deviceUpdated:com.realtime_monitoring.query_service.event.DeviceUpdatedEvent," +
-                        "deviceDeleted:com.realtime_monitoring.query_service.event.DeviceDeletedEvent"
+                "deviceUpdated:com.realtime_monitoring.query_service.event.DeviceUpdatedEvent," +
+                "deviceDeleted:com.realtime_monitoring.query_service.event.DeviceDeletedEvent," +
+                "userCreated:com.realtime_monitoring.query_service.event.UserCreatedEvent," +
+                "userUpdated:com.realtime_monitoring.query_service.event.UserUpdatedEvent," +
+                "userDeleted:com.realtime_monitoring.query_service.event.UserDeletedEvent," +
+                "teamCreated:com.realtime_monitoring.query_service.event.TeamCreatedEvent," +
+                "teamUpdated:com.realtime_monitoring.query_service.event.TeamUpdatedEvent," +
+                "teamDeleted:com.realtime_monitoring.query_service.event.TeamDeletedEvent"
 
         );
 

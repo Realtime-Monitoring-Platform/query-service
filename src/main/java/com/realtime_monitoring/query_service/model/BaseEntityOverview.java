@@ -27,7 +27,7 @@ import lombok.Setter;
 public abstract class BaseEntityOverview {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    
     private UUID id;
 
     @CreatedDate
