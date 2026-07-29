@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@KafkaListener(topics = "role-events-v2", groupId = "${spring.kafka.consumer.group-id:query-service-group}")
+@KafkaListener(topics = "role-events-v1", groupId = "${spring.kafka.consumer.group-id:query-service-group}")
 public class RoleConsumer {
 
     private final RoleOverviewRepository roleOverviewRepository;
@@ -33,7 +33,7 @@ public class RoleConsumer {
     @KafkaHandler
     public void handleRoleCreated(@Payload RoleCreatedEvent event) {
         log.info("Received role creation event for role ID: {}", event.roleId());
-
+        log.info("Received role creation event for role name: {} /////////////////////////////////////////////////////////////////////////////////////////", event.name());
         if (roleOverviewRepository.existsById(event.roleId())) {
             log.warn("RoleOverview {} already exists, skipping duplicate create event.", event.roleId());
             return;

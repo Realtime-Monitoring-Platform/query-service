@@ -42,7 +42,6 @@ public class KafkaConsumerConfig {
         props.put(
                 JsonDeserializer.TRUSTED_PACKAGES,
                 "*");
-        // Match the producer's aliases to THIS service's local classes
         props.put(JsonDeserializer.TYPE_MAPPINGS,
                 "tenantCreated:com.realtime_monitoring.query_service.event.TenantCreatedEvent," +
                 "tenantUpdated:com.realtime_monitoring.query_service.event.TenantUpdatedEvent," +
@@ -56,17 +55,13 @@ public class KafkaConsumerConfig {
                 "teamCreated:com.realtime_monitoring.query_service.event.TeamCreatedEvent," +
                 "teamUpdated:com.realtime_monitoring.query_service.event.TeamUpdatedEvent," +
                 "teamDeleted:com.realtime_monitoring.query_service.event.TeamDeletedEvent,"+
-                "RoleCreated:com.realtime_monitoring.query_service.event.RoleCreatedEvent," +
-                "RoleUpdated:com.realtime_monitoring.query_service.event.RoleUpdatedEvent," +
-                "RoleDeleted:com.realtime_monitoring.query_service.event.RoleDeletedEvent"
+                "roleCreated:com.realtime_monitoring.query_service.event.RoleCreatedEvent," +
+                "roleUpdated:com.realtime_monitoring.query_service.event.RoleUpdatedEvent," +
+                "roleDeleted:com.realtime_monitoring.query_service.event.RoleDeletedEvent"
 
         );
 
-        // Remove VALUE_DEFAULT_TYPE=Object — with type mappings in place you don't need
-        // a fallback, and Object would break @KafkaHandler's payload-type dispatch
-        // anyway
-        // props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "java.lang.Object");
-
+    
         return new DefaultKafkaConsumerFactory<>(props);
     }
 

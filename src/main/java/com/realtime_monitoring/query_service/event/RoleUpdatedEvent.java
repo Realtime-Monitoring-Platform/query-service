@@ -7,5 +7,4 @@ public record RoleUpdatedEvent(
     UUID roleId,
     String name,
     String description
-) {
-}
+) {}
