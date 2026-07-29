@@ -64,17 +64,7 @@ public class RoleConsumer {
             roleOverview.setId(event.roleId());
             roleOverview.setDescription(event.description());
             roleOverview.setName(event.name());
-            //roleOverview.setTenantId(event.tenantId());
-            // String tenantName = tenantRepo.findById(event.tenantId())
-            //         .map(TenantOverview::getName)
-            //         .orElse(null);
-            // roleOverview.setTenantName(tenantName);
-
-            // if (tenantName == null) {
-            //     log.warn("Tenant {} not found when processing role update for role {}. TenantName left null.",
-            //             event.tenantId(), event.roleId());
-            // }
-
+            
             log.info("Update role overview for tenant ID::::::::::::::::::: {}", event.roleId());
             roleOverviewRepository.save(roleOverview);
         } else {
