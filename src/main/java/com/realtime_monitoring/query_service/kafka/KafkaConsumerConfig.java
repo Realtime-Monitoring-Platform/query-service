@@ -55,7 +55,10 @@ public class KafkaConsumerConfig {
                 "userDeleted:com.realtime_monitoring.query_service.event.UserDeletedEvent," +
                 "teamCreated:com.realtime_monitoring.query_service.event.TeamCreatedEvent," +
                 "teamUpdated:com.realtime_monitoring.query_service.event.TeamUpdatedEvent," +
-                "teamDeleted:com.realtime_monitoring.query_service.event.TeamDeletedEvent"
+                "teamDeleted:com.realtime_monitoring.query_service.event.TeamDeletedEvent,"+
+                "RoleCreated:com.realtime_monitoring.query_service.event.RoleCreatedEvent," +
+                "RoleUpdated:com.realtime_monitoring.query_service.event.RoleUpdatedEvent," +
+                "RoleDeleted:com.realtime_monitoring.query_service.event.RoleDeletedEvent"
 
         );
 

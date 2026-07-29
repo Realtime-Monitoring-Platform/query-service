@@ -1,4 +1,4 @@
-package com.realtime_monitoring.user_manag.kafka.event;
+package com.realtime_monitoring.query_service.event;
 
 import java.util.UUID;
 
