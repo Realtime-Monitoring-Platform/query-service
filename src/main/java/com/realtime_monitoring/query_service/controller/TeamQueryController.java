@@ -17,7 +17,7 @@ import java.util.UUID;
 public class TeamQueryController {
 
     private final TeamQueryService teamQueryService;
-
+    
     public TeamQueryController(TeamQueryService teamQueryService) {
         this.teamQueryService = teamQueryService;
     }

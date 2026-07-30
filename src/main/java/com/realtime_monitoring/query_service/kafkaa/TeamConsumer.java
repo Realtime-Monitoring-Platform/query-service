@@ -1,5 +1,7 @@
 package com.realtime_monitoring.query_service.kafkaa;
 
+import java.util.UUID;
+
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -45,6 +47,10 @@ public class TeamConsumer {
                 .map(TenantOverview::getName)
                 .orElse(null);
         teamOverview.setTenantName(tenantName);
+        this.tenantRepo.findById(event.tenantId()).ifPresent(tenant -> {
+            tenant.setTeamNumber(tenant.getTeamNumber() + 1);
+            tenantRepo.save(tenant);
+        });
 
         if (tenantName == null) {
             log.warn("Tenant {} not found when processing team creation for team {}. TenantName left null.",
@@ -85,6 +91,18 @@ public class TeamConsumer {
     @KafkaHandler
     public void handleTeamDeleted(@Payload TeamDeletedEvent event) {
         log.info("Received team deletion event for team ID: {}::::::::::::::::::::::::::::::::::::::", event.id());
+        
+        TeamOverview teamOverview = teamOverviewRepository.findById(event.id()).orElse(null);
+        if (teamOverview != null) {
+            UUID tenantId = teamOverview.getTenantId();
+            this.tenantRepo.findById(tenantId).ifPresent(tenant -> {
+                tenant.setTeamNumber(tenant.getTeamNumber() );
+                tenantRepo.save(tenant);
+            });
+        } else {
+            log.warn("Team with ID {} not found for deletion.", event.id());
+        }
+       
         teamOverviewRepository.deleteById(event.id());
     }
 

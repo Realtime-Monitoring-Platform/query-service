@@ -52,7 +52,7 @@ public class TenantOverview {
 
     private int deviceNumber;
 
-    private int groupNumber;
+    private int teamNumber;
 
     private int alertNumber;
 

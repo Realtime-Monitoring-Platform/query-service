@@ -1,4 +1,5 @@
 package com.realtime_monitoring.query_service.model;
+
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
@@ -23,7 +24,6 @@ public class TeamOverview extends BaseEntityOverview {
 
     private String description;
 
-    
     private UUID tenantId;
     private String tenantName;
     private int userNumber;

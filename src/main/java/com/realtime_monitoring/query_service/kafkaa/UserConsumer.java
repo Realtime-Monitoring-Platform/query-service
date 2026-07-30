@@ -7,15 +7,12 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
-import com.realtime_monitoring.query_service.event.DeviceCreatedEvent;
-import com.realtime_monitoring.query_service.event.DeviceDeletedEvent;
-import com.realtime_monitoring.query_service.event.DeviceUpdatedEvent;
-import com.realtime_monitoring.query_service.event.TenantDeletedEvent;
 import com.realtime_monitoring.query_service.event.UserCreatedEvent;
 import com.realtime_monitoring.query_service.event.UserDeletedEvent;
 import com.realtime_monitoring.query_service.event.UserUpdatedEvent;
 import com.realtime_monitoring.query_service.model.DeviceOverview;
 import com.realtime_monitoring.query_service.model.DeviceStatusOverview;
+import com.realtime_monitoring.query_service.model.TeamOverview;
 import com.realtime_monitoring.query_service.model.TenantOverview;
 import com.realtime_monitoring.query_service.model.UserOverview;
 import com.realtime_monitoring.query_service.model.UserStatusOverview;
@@ -61,6 +58,11 @@ public class UserConsumer {
                 .orElse(null);
         userOverview.setTenantName(tenantName);
 
+        this.tenantRepo.findById(event.tenantId()).ifPresent(tenant -> {
+            tenant.setTeamNumber(tenant.getTeamNumber() + 1);
+            tenantRepo.save(tenant);
+        });
+
         if (tenantName == null) {
             log.warn("Tenant {} not found when processing user creation for user {}. TenantName left null.",
                     event.tenantId(), event.id());
@@ -105,6 +107,16 @@ public class UserConsumer {
     @KafkaHandler
     public void handleUserDeleted(@Payload UserDeletedEvent event) {
         log.info("Received user deletion event for user ID: {}::::::::::::::::::::::::::::::::::::::", event.id());
+        UserOverview userOverview = userOverviewRepository.findById(event.id()).orElse(null);
+        if (userOverview != null) {
+            UUID tenantId = userOverview.getTenantId();
+            this.tenantRepo.findById(tenantId).ifPresent(tenant -> {
+                tenant.setTeamNumber(tenant.getTeamNumber());
+                tenantRepo.save(tenant);
+            });
+        } else {
+            log.warn("User with ID {} not found for deletion.", event.id());
+        }
         userOverviewRepository.deleteById(event.id());
     }
 
