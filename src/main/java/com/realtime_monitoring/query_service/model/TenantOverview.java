@@ -48,6 +48,16 @@ public class TenantOverview {
 
     private String status;
 
+    private int userNumber;
+
+    private int deviceNumber;
+
+    private int groupNumber;
+
+    private int alertNumber;
+
+  
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

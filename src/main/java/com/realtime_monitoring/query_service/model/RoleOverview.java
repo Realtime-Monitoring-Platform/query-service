@@ -24,7 +24,8 @@ public class RoleOverview extends BaseEntityOverview{
     
     private String name;
     private String description;
-
+    private int userNumber;
+    private int permissionNumber;
     @ManyToMany
     @JoinTable(
         name="role_permissions",
