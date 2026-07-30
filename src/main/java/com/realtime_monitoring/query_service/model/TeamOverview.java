@@ -26,5 +26,5 @@ public class TeamOverview extends BaseEntityOverview {
     
     private UUID tenantId;
     private String tenantName;
-
+    private int userNumber;
 }
