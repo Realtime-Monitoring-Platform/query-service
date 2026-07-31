@@ -8,14 +8,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/query/users")
 public class UserQueryController {
-
+    
     private final UserQueryService userQueryService;
 
     public UserQueryController(UserQueryService userQueryService) {
