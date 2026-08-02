@@ -39,11 +39,11 @@ public class DeviceQueryController {
     }
 
     @GetMapping("/tenant/{tenantId}")
-    public ResponseEntity<List<DeviceOverviewResponse>> getDevicesByTenant(@PathVariable UUID tenantId) {
-        List<DeviceOverviewResponse> devices = deviceQueryService.getDevicesByTenant(tenantId)
-                .stream()
-                .map(DeviceOverviewResponse::from)
-                .toList();
+    public ResponseEntity<Page<DeviceOverviewResponse>> getDevicesByTenant(
+            @PathVariable UUID tenantId,
+            @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        Page<DeviceOverviewResponse> devices = deviceQueryService.getDevicesByTenant(tenantId, pageable)
+                .map(DeviceOverviewResponse::from);
         return ResponseEntity.ok(devices);
     }
 }

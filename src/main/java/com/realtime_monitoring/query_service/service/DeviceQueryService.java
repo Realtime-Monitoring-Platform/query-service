@@ -27,8 +27,8 @@ public class DeviceQueryService {
         return deviceOverviewRepository.findByHostname(hostname);
     }
 
-    public List<DeviceOverview> getDevicesByTenant(UUID tenantId) {
-        return deviceOverviewRepository.findByTenantId(tenantId);
+    public Page<DeviceOverview> getDevicesByTenant(UUID tenantId, Pageable pageable) {
+        return deviceOverviewRepository.findByTenantId(tenantId, pageable);
     }
 
     public List<DeviceOverview> getDevicesByTeam(UUID teamId) {

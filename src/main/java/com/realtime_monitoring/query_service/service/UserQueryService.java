@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,6 +41,10 @@ public class UserQueryService {
 
     public boolean existsByEmail(String email) {
         return userOverviewRepository.existsByEmail(email);
+    }
+
+    public List<UserOverview> getAllUsers() {
+        return userOverviewRepository.findAll();
     }
 
     public boolean existsByUsername(String username) {

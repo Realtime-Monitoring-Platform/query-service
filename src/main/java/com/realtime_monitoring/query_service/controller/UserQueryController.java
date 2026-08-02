@@ -8,6 +8,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -42,6 +43,11 @@ public class UserQueryController {
         Page<UserOverviewResponse> users = userQueryService.getAllUsers(pageable)
                 .map(UserOverviewResponse::from);
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<UserOverviewResponse>> getAllUsersList() {
+        return ResponseEntity.ok(userQueryService.getAllUsers().stream().map(UserOverviewResponse::from).toList());
     }
 
     @GetMapping("/tenant/{tenantId}")

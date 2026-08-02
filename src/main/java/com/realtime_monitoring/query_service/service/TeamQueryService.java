@@ -1,5 +1,6 @@
 package com.realtime_monitoring.query_service.service;
 
+import com.realtime_monitoring.query_service.model.RoleOverview;
 import com.realtime_monitoring.query_service.model.TeamOverview;
 import com.realtime_monitoring.query_service.repository.TeamOverviewRepository;
 import org.springframework.data.domain.Page;
@@ -22,9 +23,12 @@ public class TeamQueryService {
     public Optional<TeamOverview> getTeamById(UUID id) {
         return teamOverviewRepository.findById(id);
     }
+    public List<TeamOverview> getAllTeams() {
+        return teamOverviewRepository.findAll();
+    }
 
-    public List<TeamOverview> getTeamsByTenant(UUID tenantId) {
-        return teamOverviewRepository.findByTenantId(tenantId);
+    public Page<TeamOverview> getTeamsByTenant(UUID tenantId, Pageable pageable) {
+        return teamOverviewRepository.findByTenantId(tenantId, pageable);
     }
 
     public Page<TeamOverview> getAllTeams(Pageable pageable) {

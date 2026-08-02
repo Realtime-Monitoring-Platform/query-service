@@ -1,6 +1,8 @@
 package com.realtime_monitoring.query_service.controller;
 
 import com.realtime_monitoring.query_service.dto.TeamOverviewResponse;
+import com.realtime_monitoring.query_service.model.RoleOverview;
+import com.realtime_monitoring.query_service.model.TeamOverview;
 import com.realtime_monitoring.query_service.service.TeamQueryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +32,12 @@ public class TeamQueryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<List<TeamOverview>> listTeams() {
+        List<TeamOverview> teams = teamQueryService.getAllTeams();
+        return ResponseEntity.ok(teams);
+    }
+
     @GetMapping
     public ResponseEntity<Page<TeamOverviewResponse>> getAllTeams(
             @PageableDefault(page = 0, size = 10) Pageable pageable) {
@@ -39,11 +47,11 @@ public class TeamQueryController {
     }
 
     @GetMapping("/tenant/{tenantId}")
-    public ResponseEntity<List<TeamOverviewResponse>> getTeamsByTenant(@PathVariable UUID tenantId) {
-        List<TeamOverviewResponse> teams = teamQueryService.getTeamsByTenant(tenantId)
-                .stream()
-                .map(TeamOverviewResponse::from)
-                .toList();
+    public ResponseEntity<Page<TeamOverviewResponse>> getTeamsByTenant(
+            @PathVariable UUID tenantId,
+            @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        Page<TeamOverviewResponse> teams = teamQueryService.getTeamsByTenant(tenantId, pageable)
+                .map(TeamOverviewResponse::from);
         return ResponseEntity.ok(teams);
     }
 }

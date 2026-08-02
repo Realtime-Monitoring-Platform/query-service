@@ -12,11 +12,14 @@ import com.realtime_monitoring.query_service.event.UserDeletedEvent;
 import com.realtime_monitoring.query_service.event.UserUpdatedEvent;
 import com.realtime_monitoring.query_service.model.DeviceOverview;
 import com.realtime_monitoring.query_service.model.DeviceStatusOverview;
+import com.realtime_monitoring.query_service.model.RoleOverview;
 import com.realtime_monitoring.query_service.model.TeamOverview;
 import com.realtime_monitoring.query_service.model.TenantOverview;
 import com.realtime_monitoring.query_service.model.UserOverview;
 import com.realtime_monitoring.query_service.model.UserStatusOverview;
 import com.realtime_monitoring.query_service.repository.DeviceOverviewRepository;
+import com.realtime_monitoring.query_service.repository.RoleOverviewRepository;
+import com.realtime_monitoring.query_service.repository.TeamOverviewRepository;
 import com.realtime_monitoring.query_service.repository.TenantOverviewRepository;
 import com.realtime_monitoring.query_service.repository.UserOverviewRepository;
 
@@ -26,12 +29,14 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@KafkaListener(topics = "user-events-v5", groupId = "${spring.kafka.consumer.group-id:query-service-group}")
+@KafkaListener(topics = "user-events-v6", groupId = "${spring.kafka.consumer.group-id:query-service-group}")
 public class UserConsumer {
 
     private final UserOverviewRepository userOverviewRepository;
     private final TenantOverviewRepository tenantRepo;
-
+    private final DeviceOverviewRepository deviceOverviewRepository;
+    private final TeamOverviewRepository teamRepository;
+    private final RoleOverviewRepository roleRepository;
     @KafkaHandler
     public void handleUserCreated(@Payload UserCreatedEvent event) {
         log.info("Received user creation event for user ID: {}", event.id());
@@ -52,7 +57,14 @@ public class UserConsumer {
         userOverview.setAddress(event.Address());
         userOverview.setStatus(event.status() != null ? UserStatusOverview.valueOf(event.status()) : null);
         userOverview.setTenantId(event.tenantId());
+        userOverview.setRoleId(event.roleId());
+        userOverview.setTeamId(event.teamId());
 
+        // userOverview.setRoleName(this.roleRepository.findById(event.roleId())
+        //         .map(role -> role.getName())
+        //         .orElse(null));
+        userOverview.setRoleName(this.roleRepository.findById(event.roleId()).map(RoleOverview::getName).orElse(null));
+        userOverview.setTeamName(this.teamRepository.findById(event.teamId()).map(TeamOverview::getName).orElse(null));
         String tenantName = tenantRepo.findById(event.tenantId())
                 .map(TenantOverview::getName)
                 .orElse(null);
@@ -87,6 +99,9 @@ public class UserConsumer {
             userOverview.setAddress(event.Address());
             userOverview.setStatus(event.status() != null ? UserStatusOverview.valueOf(event.status()) : null);
             userOverview.setTenantId(event.tenantId());
+             userOverview.setRoleName(this.roleRepository.findById(event.roleId()).map(RoleOverview::getName).orElse(null));
+        userOverview.setTeamName(this.teamRepository.findById(event.teamId()).map(TeamOverview::getName).orElse(null));
+      
             String tenantName = tenantRepo.findById(event.tenantId())
                     .map(TenantOverview::getName)
                     .orElse(null);

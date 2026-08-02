@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@KafkaListener(topics = "team-events-v2", groupId = "${spring.kafka.consumer.group-id:query-service-group}")
+@KafkaListener(topics = "team-events-v3", groupId = "${spring.kafka.consumer.group-id:query-service-group}")
 public class TeamConsumer {
 
     private final TeamOverviewRepository teamOverviewRepository;
