@@ -13,6 +13,7 @@ import com.realtime_monitoring.query_service.event.TeamUpdatedEvent;
 import com.realtime_monitoring.query_service.model.TenantOverview;
 import com.realtime_monitoring.query_service.model.TeamOverview;
 import com.realtime_monitoring.query_service.repository.TenantOverviewRepository;
+import com.realtime_monitoring.query_service.repository.UserOverviewRepository;
 import com.realtime_monitoring.query_service.repository.TeamOverviewRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,11 +27,12 @@ public class TeamConsumer {
 
     private final TeamOverviewRepository teamOverviewRepository;
     private final TenantOverviewRepository tenantRepo;
+    private final UserOverviewRepository userrepo;
 
     @KafkaHandler
     public void handleTeamCreated(@Payload TeamCreatedEvent event) {
-        log.info("Received team creation event for team ID: {}", event.id());
-
+        log.info("Received team creation event for team ID: {}////////////////:", event.id());
+        log.info("Received team creation event for teamleader ID: {}////////////////:", event.teamLeaderId());
         if (teamOverviewRepository.existsById(event.id())) {
             log.warn("TeamOverview {} already exists, skipping duplicate create event.", event.id());
             return;
@@ -42,7 +44,8 @@ public class TeamConsumer {
         teamOverview.setName(event.name());
 
         teamOverview.setTenantId(event.tenantId());
-
+        teamOverview.setTeamLeaderId(event.teamLeaderId());
+        teamOverview.setTeamLeaderName(this.userrepo.findById(event.teamLeaderId()).map(user -> user.getFirstName() + " " + user.getLastName()).orElse(null));
         String tenantName = tenantRepo.findById(event.tenantId())
                 .map(TenantOverview::getName)
                 .orElse(null);

@@ -7,5 +7,8 @@ public record TeamCreatedEvent(
     DomainEvent event,
     String name,
     String description,
-    UUID tenantId
+    UUID tenantId,
+    UUID teamLeaderId
+    
+
 ) {}

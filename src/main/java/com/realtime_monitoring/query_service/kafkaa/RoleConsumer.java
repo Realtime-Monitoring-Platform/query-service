@@ -1,5 +1,8 @@
 package com.realtime_monitoring.query_service.kafkaa;
 
+import java.util.Set;
+import java.util.UUID;
+
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -12,6 +15,7 @@ import com.realtime_monitoring.query_service.event.TeamCreatedEvent;
 import com.realtime_monitoring.query_service.event.TeamDeletedEvent;
 import com.realtime_monitoring.query_service.event.TeamUpdatedEvent;
 import com.realtime_monitoring.query_service.model.TenantOverview;
+import com.realtime_monitoring.query_service.model.PermissionOverview;
 import com.realtime_monitoring.query_service.model.RoleOverview;
 import com.realtime_monitoring.query_service.model.TeamOverview;
 import com.realtime_monitoring.query_service.repository.TenantOverviewRepository;
@@ -33,7 +37,9 @@ public class RoleConsumer {
     @KafkaHandler
     public void handleRoleCreated(@Payload RoleCreatedEvent event) {
         log.info("Received role creation event for role ID: {}", event.roleId());
-        log.info("Received role creation event for role name: {} /////////////////////////////////////////////////////////////////////////////////////////", event.name());
+        log.info(
+                "Received role creation event for role name: {} /////////////////////////////////////////////////////////////////////////////////////////",
+                event.name());
         if (roleOverviewRepository.existsById(event.roleId())) {
             log.warn("RoleOverview {} already exists, skipping duplicate create event.", event.roleId());
             return;
@@ -43,13 +49,17 @@ public class RoleConsumer {
         roleOverview.setId(event.roleId());
         roleOverview.setDescription(event.description());
         roleOverview.setName(event.name());
+        Set<PermissionOverview> permissionIds = event.permissionIds().stream()
+                .map(permissionId -> {
+                    PermissionOverview permissionOverview = new PermissionOverview();
+                    permissionOverview.setId(permissionId);
+                    return permissionOverview;
+                })
+                .collect(java.util.stream.Collectors.toSet());
+        roleOverview.setPermissions(permissionIds);
+        // roleOverview.setTenantId(event.tenantId());
 
-       // roleOverview.setTenantId(event.tenantId());
-
-        
-       // roleOverview.setTenantName(tenantName);
-
-        
+        // roleOverview.setTenantName(tenantName);
 
         log.info("Saving role overview for tenant ID: {}", event.roleId());
         roleOverviewRepository.save(roleOverview);
@@ -64,11 +74,18 @@ public class RoleConsumer {
             roleOverview.setId(event.roleId());
             roleOverview.setDescription(event.description());
             roleOverview.setName(event.name());
-            
+            Set<PermissionOverview> permissionIds = event.permissionIds().stream()
+                    .map(permissionId -> {
+                        PermissionOverview permissionOverview = new PermissionOverview();
+                        permissionOverview.setId(permissionId);
+                        return permissionOverview;
+                    })
+                    .collect(java.util.stream.Collectors.toSet());
+            roleOverview.setPermissions(permissionIds);
             log.info("Update role overview for tenant ID::::::::::::::::::: {}", event.roleId());
             roleOverviewRepository.save(roleOverview);
         } else {
-            log.warn("Role with ID {} not found for update.", event.roleId  ());
+            log.warn("Role with ID {} not found for update.", event.roleId());
         }
     }
 

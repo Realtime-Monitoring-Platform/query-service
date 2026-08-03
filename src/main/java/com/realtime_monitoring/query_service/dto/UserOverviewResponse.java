@@ -17,10 +17,13 @@ public record UserOverviewResponse(
     String address,
     UserStatusOverview status,
     LocalDateTime lastLogin,
+    
     UUID tenantId,
     String tenantName,
     UUID teamId,
     String teamName,
+    String roleName,
+    UUID roleId,
     LocalDateTime createdAt,
     LocalDateTime updatedAt
 ) {
@@ -40,6 +43,8 @@ public record UserOverviewResponse(
             user.getTenantName(),
             user.getTeamId(),
             user.getTeamName(),
+            user.getRoleName(),
+            user.getRoleId(),
             user.getCreatedAt(),
             user.getUpdatedAt()
         );

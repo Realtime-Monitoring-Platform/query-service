@@ -21,10 +21,14 @@ public class PermissionQueryService {
         this.permissionOverviewRepository = permissionOverviewRepository;
     }
 
-    public List<PermissionOverviewResponse> getAllPermissions() {
-        return permissionOverviewRepository.findAll().stream()
-                .map(PermissionOverviewResponse::from)
-                .toList();
+    // public List<PermissionOverviewResponse> getAllPermissions() {
+    //     return permissionOverviewRepository.findAll().stream()
+    //             .map(PermissionOverviewResponse::from)
+    //             .toList();
+    // }
+
+    public List<PermissionOverview> getAllPermissionsList() {
+        return permissionOverviewRepository.findAll();
     }
 
     public Page<PermissionOverview> getAllPermissions(Pageable pageable) {

@@ -48,9 +48,12 @@ public class PermissionQueryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+   
     @GetMapping("/list")
     public ResponseEntity<List<PermissionOverviewResponse>> getListPermissions() {
-        List<PermissionOverviewResponse> permissions = permissionQueryService.getAllPermissions();
+        List<PermissionOverviewResponse> permissions = permissionQueryService.getAllPermissionsList().stream()
+                .map(PermissionOverviewResponse::from)
+                .toList();
         return ResponseEntity.ok(permissions);
     }
     
