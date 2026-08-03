@@ -17,6 +17,9 @@ public record TenantOverviewResponse(
         String companyName,
         String status,
         String email,
+          UUID AdminId,
+
+      String adminName,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
     ) {
@@ -32,6 +35,8 @@ public record TenantOverviewResponse(
                 tenant.getCompanyName(),
                 tenant.getStatus(),
                 tenant.getEmail(),
+                tenant.getAdminId(),
+                tenant.getAdminName(),
                 tenant.getCreatedAt(),
                 tenant.getUpdatedAt());
     }

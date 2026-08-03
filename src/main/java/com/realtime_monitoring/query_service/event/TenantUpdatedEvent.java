@@ -10,5 +10,6 @@ public record TenantUpdatedEvent(
     String companyName,
     String email,
     String phone,
-    String status
+    String status,
+     UUID AdminId
 ) {}

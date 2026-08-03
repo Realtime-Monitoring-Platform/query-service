@@ -56,8 +56,9 @@ public class TenantOverview {
 
     private int alertNumber;
 
-  
+    private  UUID AdminId;
 
+    private String adminName;
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

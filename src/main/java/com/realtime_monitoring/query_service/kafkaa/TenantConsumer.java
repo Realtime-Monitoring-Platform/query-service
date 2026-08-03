@@ -11,6 +11,7 @@ import com.realtime_monitoring.query_service.event.TenantDeletedEvent;
 import com.realtime_monitoring.query_service.event.TenantUpdatedEvent;
 import com.realtime_monitoring.query_service.model.TenantOverview;
 import com.realtime_monitoring.query_service.repository.TenantOverviewRepository;
+import com.realtime_monitoring.query_service.repository.UserOverviewRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -21,13 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @KafkaListener(
-    topics = "tenant-events-v5",
+    topics = "tenant-events-v6",
     groupId = "${spring.kafka.consumer.group-id:query-service-group}"
 )
 public class TenantConsumer {
 
     private final TenantOverviewRepository tenantOverviewRepository;
-
+    private final UserOverviewRepository userOverviewRepository;
     @KafkaHandler
     public void handleTenantCreated(@Payload TenantCreatedEvent event) {
 
@@ -40,7 +41,9 @@ public class TenantConsumer {
         tenantOverview.setEmail(event.email());
         tenantOverview.setPhone(event.phone());
         tenantOverview.setStatus(event.status());
-
+        tenantOverview.setAdminId(event.AdminId());
+        tenantOverview.setAdminName(this.userOverviewRepository.findById(event.AdminId()).map(user -> user.getFirstName() + " " + user.getLastName()).orElse(null));
+          
         tenantOverviewRepository.save(tenantOverview);
     }
 
@@ -54,6 +57,8 @@ public class TenantConsumer {
             tenantOverview.setEmail(event.email());
             tenantOverview.setPhone(event.phone());
             tenantOverview.setStatus(event.status());
+            tenantOverview.setAdminId(event.AdminId());
+            tenantOverview.setAdminName(this.userOverviewRepository.findById(event.AdminId()).map(user -> user.getFirstName() + " " + user.getLastName()).orElse(null));
             tenantOverviewRepository.save(tenantOverview);
         } else {
             log.warn("Tenant with ID {} not found for update.", event.id());
