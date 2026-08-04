@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@KafkaListener(topics = "device-events-v5", groupId = "${spring.kafka.consumer.group-id:query-service-group}")
+@KafkaListener(topics = "device-events-v6", groupId = "${spring.kafka.consumer.group-id:query-service-group}")
 public class DeviceConsumer {
 
     private final DeviceOverviewRepository deviceOverviewRepository;

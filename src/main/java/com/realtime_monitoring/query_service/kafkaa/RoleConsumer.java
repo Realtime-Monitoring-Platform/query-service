@@ -2,6 +2,7 @@ package com.realtime_monitoring.query_service.kafkaa;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -11,16 +12,11 @@ import org.springframework.stereotype.Service;
 import com.realtime_monitoring.query_service.event.RoleCreatedEvent;
 import com.realtime_monitoring.query_service.event.RoleDeletedEvent;
 import com.realtime_monitoring.query_service.event.RoleUpdatedEvent;
-import com.realtime_monitoring.query_service.event.TeamCreatedEvent;
-import com.realtime_monitoring.query_service.event.TeamDeletedEvent;
-import com.realtime_monitoring.query_service.event.TeamUpdatedEvent;
-import com.realtime_monitoring.query_service.model.TenantOverview;
 import com.realtime_monitoring.query_service.model.PermissionOverview;
 import com.realtime_monitoring.query_service.model.RoleOverview;
-import com.realtime_monitoring.query_service.model.TeamOverview;
-import com.realtime_monitoring.query_service.repository.TenantOverviewRepository;
+import com.realtime_monitoring.query_service.repository.PermissionOverviewRepository;
 import com.realtime_monitoring.query_service.repository.RoleOverviewRepository;
-import com.realtime_monitoring.query_service.repository.TeamOverviewRepository;
+import com.realtime_monitoring.query_service.repository.TenantOverviewRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +29,7 @@ public class RoleConsumer {
 
     private final RoleOverviewRepository roleOverviewRepository;
     private final TenantOverviewRepository tenantRepo;
+    private final PermissionOverviewRepository permissionOverviewRepository;
 
     @KafkaHandler
     public void handleRoleCreated(@Payload RoleCreatedEvent event) {
@@ -49,14 +46,7 @@ public class RoleConsumer {
         roleOverview.setId(event.roleId());
         roleOverview.setDescription(event.description());
         roleOverview.setName(event.name());
-        Set<PermissionOverview> permissionIds = event.permissionIds().stream()
-                .map(permissionId -> {
-                    PermissionOverview permissionOverview = new PermissionOverview();
-                    permissionOverview.setId(permissionId);
-                    return permissionOverview;
-                })
-                .collect(java.util.stream.Collectors.toSet());
-        roleOverview.setPermissions(permissionIds);
+        roleOverview.setPermissions(resolvePermissions(event.permissionIds()));
         // roleOverview.setTenantId(event.tenantId());
 
         // roleOverview.setTenantName(tenantName);
@@ -71,17 +61,9 @@ public class RoleConsumer {
 
         RoleOverview roleOverview = roleOverviewRepository.findById(event.roleId()).orElse(null);
         if (roleOverview != null) {
-            roleOverview.setId(event.roleId());
             roleOverview.setDescription(event.description());
             roleOverview.setName(event.name());
-            Set<PermissionOverview> permissionIds = event.permissionIds().stream()
-                    .map(permissionId -> {
-                        PermissionOverview permissionOverview = new PermissionOverview();
-                        permissionOverview.setId(permissionId);
-                        return permissionOverview;
-                    })
-                    .collect(java.util.stream.Collectors.toSet());
-            roleOverview.setPermissions(permissionIds);
+            roleOverview.setPermissions(resolvePermissions(event.permissionIds()));
             log.info("Update role overview for tenant ID::::::::::::::::::: {}", event.roleId());
             roleOverviewRepository.save(roleOverview);
         } else {
@@ -90,13 +72,28 @@ public class RoleConsumer {
     }
 
     @KafkaHandler
-    public void handleTeamDeleted(@Payload RoleDeletedEvent event) {
-        log.info("Received team deletion event for team ID: {}::::::::::::::::::::::::::::::::::::::", event.id());
+    public void handleRoleDeleted(@Payload RoleDeletedEvent event) {
+        log.info("Received role deletion event for role ID: {}::::::::::::::::::::::::::::::::::::::", event.id());
         this.roleOverviewRepository.deleteById(event.id());
     }
 
     @KafkaHandler(isDefault = true)
     public void handleUnknown(Object event) {
         log.warn("Unknown event: {}", event);
+    }
+
+    private Set<PermissionOverview> resolvePermissions(Set<UUID> permissionIds) {
+        if (permissionIds == null) {
+            return Set.of();
+        }
+
+        return permissionIds.stream()
+                .map(permissionId -> permissionOverviewRepository.findById(permissionId)
+                        .orElseGet(() -> {
+                            PermissionOverview stub = new PermissionOverview();
+                            stub.setId(permissionId);
+                            return stub;
+                        }))
+                .collect(Collectors.toSet());
     }
 }
