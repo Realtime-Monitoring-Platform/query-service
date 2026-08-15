@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 @RequestMapping("/api/v1/query/users")
 public class UserQueryController {
     
