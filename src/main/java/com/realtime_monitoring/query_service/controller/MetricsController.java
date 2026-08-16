@@ -27,10 +27,10 @@ public class MetricsController {
         return this.metricsService.getMetrics(tenantId, deviceId,startTime);
     }
 
-    // @GetMapping("/deviceid")
-    // public List<MetricsDTO> getMetricsByDeviceId(@RequestParam String deviceId) {
-    //     return this.metricsService.getMetrics(null, deviceId, null);
-    // }
+    @GetMapping("/deviceid")
+    public List<MetricsDTO> getMetricsByDeviceId(@RequestParam String deviceId) {
+        return this.metricsService.getMetricsByDeviceId(deviceId);
+    }
     
     
 }
