@@ -27,9 +27,9 @@ public class MetricsController {
         return this.metricsService.getMetrics(tenantId, deviceId,startTime);
     }
 
-    @GetMapping("/deviceid")
-    public List<MetricsDTO> getMetricsByDeviceId(@RequestParam String deviceId) {
-        return this.metricsService.getMetricsByDeviceId(deviceId);
+    @GetMapping("/deviceid/{deviceId}")
+    public List<MetricsDTO> getMetricsByDeviceId(@PathVariable String deviceId,@RequestParam String startTime) {
+        return this.metricsService.getMetricsByDeviceId(deviceId, startTime);
     }
     
     

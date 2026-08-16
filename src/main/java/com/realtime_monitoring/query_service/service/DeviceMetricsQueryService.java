@@ -27,17 +27,14 @@ public class DeviceMetricsQueryService {
     public List<MetricsDTO> getMetrics(
             String tenantId,
             String deviceId,
-            String startTime
-    ) {
-        // Default to -24h if null/blank
-        String rangeStart = (startTime != null && !startTime.isBlank()) ? startTime : "-24h";
+            String startTime) {
 
-        // Format relative durations (-24h, -1h) vs ISO strings (2026-08-16T10:00:00Z)
-        String rangeExpression = rangeStart.startsWith("-") 
-                ? rangeStart 
+        String rangeStart = (startTime != null && !startTime.isBlank() ? startTime : "-24h");
+
+        String rangeExpression = rangeStart.startsWith("-")
+                ? rangeStart
                 : "time(v: \"" + rangeStart + "\")";
 
-        // Safely format the Flux script directly
         String flux = """
                 from(bucket: "chedly")
                   |> range(start: %s)
@@ -82,5 +79,60 @@ public class DeviceMetricsQueryService {
         }
 
         return result;
+    }
+
+    public List<MetricsDTO> getMetricsByDeviceId(String deviceId, String startTime) {
+        {
+            String rangeStart = (startTime != null && !startTime.isBlank()) ? startTime : "-24h";
+
+            String rangeExpression = rangeStart.startsWith("-")
+                    ? rangeStart
+                    : "time(v: \"" + rangeStart + "\")";
+
+            String flux = """
+                    from(bucket: "chedly")
+                      |> range(start: %s)
+                      |> filter(fn: (r) => r._measurement == "device_metrics")
+                      |> filter(fn: (r) => r.device_id == "%s")
+
+                      |> pivot(
+                          rowKey: ["_time"],
+                          columnKey: ["_field"],
+                          valueColumn: "_value"
+                      )
+                    """.formatted(rangeExpression, deviceId);
+
+            System.out.println("Executing Flux query:\n" + flux);
+
+            List<FluxTable> tables = influxDBClient
+                    .getQueryApi()
+                    .query(flux, org);
+
+            List<MetricsDTO> result = new ArrayList<>();
+
+            for (FluxTable table : tables) {
+                for (FluxRecord record : table.getRecords()) {
+
+                    Double cpu = record.getValueByKey("cpu") instanceof Number
+                            ? ((Number) record.getValueByKey("cpu")).doubleValue()
+                            : null;
+
+                    Double ram = record.getValueByKey("ram") instanceof Number
+                            ? ((Number) record.getValueByKey("ram")).doubleValue()
+                            : null;
+
+                    MetricsDTO metricsDTO = new MetricsDTO();
+                    metricsDTO.setDevice_id(UUID.fromString(deviceId));
+
+                    metricsDTO.setTimestamp(record.getTime());
+                    metricsDTO.setCpu(cpu);
+                    metricsDTO.setRam(ram);
+
+                    result.add(metricsDTO);
+                }
+            }
+
+            return result;
+        }
     }
 }
