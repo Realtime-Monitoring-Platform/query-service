@@ -21,10 +21,16 @@ public record DeviceOverviewResponse(
     String ipAddress,
     String macAddress,
     String location,
+     
     DeviceStatusOverview status,
     LocalDateTime lastSeen,
     LocalDateTime createdAt,
-    LocalDateTime updatedAt
+    LocalDateTime updatedAt,
+    String osName,
+     String osVersion,
+     String kernelVersion,
+     Long cpuCount,
+     Long totalMemoryKb
 ) {
     public static DeviceOverviewResponse from(DeviceOverview device) {
         return new DeviceOverviewResponse(
@@ -45,7 +51,13 @@ public record DeviceOverviewResponse(
             device.getStatus(),
             device.getLastSeen(),
             device.getCreatedAt(),
-            device.getUpdatedAt()
+            device.getUpdatedAt(),
+            device.getOsName(),
+            device.getOsVersion(),
+            device.getKernelVersion(),
+            device.getCpuCount(),
+            device.getTotalMemoryKb()
+            
         );
     }
 }

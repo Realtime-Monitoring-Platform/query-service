@@ -1,4 +1,5 @@
 package com.realtime_monitoring.query_service.model;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Entity
 @Getter
 @Setter
@@ -38,7 +40,6 @@ public class DeviceOverview {
 
     private UUID assignedUserId;
     private String assignedUserName;
-
     @Column(nullable = false)
     private String deviceName;
 
@@ -53,20 +54,26 @@ public class DeviceOverview {
 
     private String macAddress;
 
+    @Column(nullable = true, unique = true, updatable = false)
+    private String deviceIdentifier;
+
     private String location;
 
     @Enumerated(EnumType.STRING)
     private DeviceStatusOverview status;
 
+
+    private String osName;
+    private String osVersion;
+    private String kernelVersion;
+    private Long cpuCount;
+    private Long totalMemoryKb;
     private LocalDateTime lastSeen;
 
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    private String mqttHashPassword;
-    private String mqttPassword;
-    private String MqttUsername;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 }

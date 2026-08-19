@@ -47,10 +47,15 @@ public class DeviceConsumer {
         deviceOverview.setLastSeen(event.lastSeen());
         deviceOverview.setTenantId(event.tenantId());
         deviceOverview.setTeamId(event.teamId());
-        deviceOverview.setMqttHashPassword(event.mqttHashPassword());
-        deviceOverview.setMqttPassword(event.mqttPassword());
+        // deviceOverview.setMqttHashPassword(event.mqttHashPassword());
+        // deviceOverview.setMqttPassword(event.mqttPassword());
         deviceOverview.setTenantName(this.tenantRepo.findById(event.tenantId()).orElse(null).getName());
-        deviceOverview.setMqttUsername(event.MqttUsername());
+        deviceOverview.setOsName(event.osName());
+        deviceOverview.setOsVersion(event.osVersion());
+        deviceOverview.setKernelVersion(event.kernelVersion());
+        deviceOverview.setCpuCount(event.cpuCount());
+        deviceOverview.setTotalMemoryKb(event.totalMemoryKb());
+        
         log.info("Saving device overview for tenant ID::::::::::::::::::: {}", event.teamId(), event.tenantId());
         deviceOverviewRepository.save(deviceOverview);
     }
@@ -74,9 +79,16 @@ public class DeviceConsumer {
             deviceOverview.setTeamId(event.teamId());
             deviceOverview.setTenantId(event.tenantId());
             deviceOverview.setTenantName(this.tenantRepo.findById(event.tenantId()).orElse(null).getName());
-            deviceOverview.setMqttHashPassword(event.mqttHashPassword());
-            deviceOverview.setMqttPassword(event.mqttPassword());
-            deviceOverview.setMqttUsername(event.MqttUsername());
+            // deviceOverview.setMqttHashPassword(event.mqttHashPassword());
+            // deviceOverview.setMqttPassword(event.mqttPassword());
+            // deviceOverview.setMqttUsername(event.MqttUsername());
+
+            deviceOverview.setOsName(event.osName());
+            deviceOverview.setOsVersion(event.osVersion());
+            deviceOverview.setKernelVersion(event.kernelVersion());
+            deviceOverview.setCpuCount(event.cpuCount());
+            deviceOverview.setTotalMemoryKb(event.totalMemoryKb());
+             
             deviceOverviewRepository.save(deviceOverview);
 
             this.tenantRepo.findById(event.tenantId()).ifPresent(tenant -> {

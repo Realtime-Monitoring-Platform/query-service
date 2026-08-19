@@ -3,25 +3,27 @@ package com.realtime_monitoring.query_service.event;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-
-
 public record DeviceCreatedEvent(
-        UUID id,
-        DomainEvent event,
-        UUID assignedUserId,
-        String deviceName,
-        String model,
-        String manufacturer,
-        String hostname,
-        String ipAddress,
-        String macAddress,
-        String location,
-        String status,
-        LocalDateTime lastSeen,
-        UUID tenantId,
-        UUID teamId,
-        String mqttHashPassword,
-        String mqttPassword,
-        String MqttUsername
-) {
+                UUID id,
+                DomainEvent event,
+                UUID assignedUserId,
+                String deviceName,
+                String model,
+                String manufacturer,
+                String hostname,
+                String ipAddress,
+                String macAddress,
+                String location,
+                String status,
+                LocalDateTime lastSeen,
+                UUID tenantId,
+                UUID teamId,
+                String mqttHashPassword,
+                String mqttPassword,
+                String MqttUsername,
+                String osName,
+                String osVersion,
+                String kernelVersion,
+                Long cpuCount,
+                Long totalMemoryKb) {
 }

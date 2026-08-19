@@ -74,7 +74,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 influxdb:
-  url: http://localhost:8086
-  token: chedlychedly
+  url: https://us-east-1-1.aws.cloud2.influxdata.com
+  token: xsjJoBy7UA1MJKK0ZOQyQcxzoQ6N1mv72JVXnStqlXy8sKNDf4VH9MB-3PE2X5LMCsVQ64rPSJZYiC4ovyk-aw==
   org: docs
   bucket: chedly
