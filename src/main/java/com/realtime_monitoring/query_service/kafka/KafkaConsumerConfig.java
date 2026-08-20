@@ -60,11 +60,14 @@ public class KafkaConsumerConfig {
                         "roleDeleted:com.realtime_monitoring.query_service.event.RoleDeletedEvent," +
                         "permissionCreated:com.realtime_monitoring.query_service.event.PermissionCreatedEvent," +
                         "permissionUpdated:com.realtime_monitoring.query_service.event.PermissionUpdatedEvent," +
-                        "permissionDeleted:com.realtime_monitoring.query_service.event.PermissionDeletedEvent"
+                        "permissionDeleted:com.realtime_monitoring.query_service.event.PermissionDeletedEvent," +
+                        "notificationCreated:com.realtime_monitoring.query_service.event.NotificationCreatedEvent"
 
         );
 
+
         return new DefaultKafkaConsumerFactory<>(props);
+        
     }
 
     @Bean

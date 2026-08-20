@@ -1,80 +1,97 @@
 
 
 
+# spring:
+#   application:
+# #     name: query-service
+#     import: "optional:configserver:http://localhost:9000"
+# server:
+#   port: 8222
 
 
-        
+
 spring:
   application:
     name: query-service
-    security:
-      jwt:
-        secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-        expiration: 86400000 
-        refresh-token:
-          expiration: 604800000
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/read_database
-    username: postgres
-    password: chedly
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-
-  cloud:
-    config:
-      enabled: false
-
-
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: query-service-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-      #  spring.json.value.default.type: com.realtime_monitoring.query_service.event.TenantCreatedEvent
-        spring.json.trusted.packages: "*"
-        spring.json.type.mapping: >
-          tenantCreated:com.realtime_monitoring.query_service.event.TenantCreatedEvent,
-          tenantUpdated:com.realtime_monitoring.query_service.event.TenantUpdatedEvent,
-          tenantDeleted:com.realtime_monitoring.query_service.event.TenantDeletedEvent,
-          deviceCreated:com.realtime_monitoring.query_service.event.DeviceCreatedEvent,
-          deviceUpdated:com.realtime_monitoring.query_service.event.DeviceUpdatedEvent,
-          deviceDeleted:com.realtime_monitoring.query_service.event.DeviceDeletedEvent,
-          userCreated:com.realtime_monitoring.query_service.event.UserCreatedEvent,
-          userUpdated:com.realtime_monitoring.query_service.event.UserUpdatedEvent,
-          userDeleted:com.realtime_monitoring.query_service.event.UserDeletedEvent,
-          teamCreated:com.realtime_monitoring.query_service.event.TeamCreatedEvent,
-          teamUpdated:com.realtime_monitoring.query_service.event.TeamUpdatedEvent,
-          teamDeleted:com.realtime_monitoring.query_service.event.TeamDeletedEvent,
-          roleCreated:com.realtime_monitoring.query_service.event.RoleCreatedEvent, 
-          roleUpdated:com.realtime_monitoring.query_service.event.RoleUpdatedEvent, 
-          roleDeleted:com.realtime_monitoring.query_service.event.RoleDeletedEvent,
-          permissionCreated:com.realtime_monitoring.query_service.event.PermissionCreatedEvent,
-          permissionUpdated:com.realtime_monitoring.query_service.event.PermissionUpdatedEvent,
-          permissionDeleted:com.realtime_monitoring.query_service.event.PermissionDeletedEvent
+  config:
+    import: "optional:configserver:http://localhost:9000"
+server:
+  port: 8222
 
 
 
         
-server:
-  port: ${SERVER_PORT:9007}
+# spring:
+#   application:
+#     name: query-service
+#     security:
+#       jwt:
+#         secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+#         expiration: 86400000 
+#         refresh-token:
+#           expiration: 604800000
+#   datasource:
+#     driver-class-name: org.postgresql.Driver
+#     url: jdbc:postgresql://localhost:5432/read_database
+#     username: postgres
+#     password: chedly
+#   jpa:
+#     hibernate:
+#       ddl-auto: update
+#     database: postgresql
+#     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-influxdb:
-  url: https://us-east-1-1.aws.cloud2.influxdata.com
-  token: xsjJoBy7UA1MJKK0ZOQyQcxzoQ6N1mv72JVXnStqlXy8sKNDf4VH9MB-3PE2X5LMCsVQ64rPSJZYiC4ovyk-aw==
-  org: docs
-  bucket: chedly
+#   cloud:
+#     config:
+#       enabled: false
+
+
+#   kafka:
+#     bootstrap-servers: localhost:9092
+#     consumer:
+#       group-id: query-service-group
+#       auto-offset-reset: earliest
+#       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#       properties:
+#       #  spring.json.value.default.type: com.realtime_monitoring.query_service.event.TenantCreatedEvent
+#         spring.json.trusted.packages: "*"
+#         spring.json.type.mapping: >
+#           tenantCreated:com.realtime_monitoring.query_service.event.TenantCreatedEvent,
+#           tenantUpdated:com.realtime_monitoring.query_service.event.TenantUpdatedEvent,
+#           tenantDeleted:com.realtime_monitoring.query_service.event.TenantDeletedEvent,
+#           deviceCreated:com.realtime_monitoring.query_service.event.DeviceCreatedEvent,
+#           deviceUpdated:com.realtime_monitoring.query_service.event.DeviceUpdatedEvent,
+#           deviceDeleted:com.realtime_monitoring.query_service.event.DeviceDeletedEvent,
+#           userCreated:com.realtime_monitoring.query_service.event.UserCreatedEvent,
+#           userUpdated:com.realtime_monitoring.query_service.event.UserUpdatedEvent,
+#           userDeleted:com.realtime_monitoring.query_service.event.UserDeletedEvent,
+#           teamCreated:com.realtime_monitoring.query_service.event.TeamCreatedEvent,
+#           teamUpdated:com.realtime_monitoring.query_service.event.TeamUpdatedEvent,
+#           teamDeleted:com.realtime_monitoring.query_service.event.TeamDeletedEvent,
+#           roleCreated:com.realtime_monitoring.query_service.event.RoleCreatedEvent, 
+#           roleUpdated:com.realtime_monitoring.query_service.event.RoleUpdatedEvent, 
+#           roleDeleted:com.realtime_monitoring.query_service.event.RoleDeletedEvent,
+#           permissionCreated:com.realtime_monitoring.query_service.event.PermissionCreatedEvent,
+#           permissionUpdated:com.realtime_monitoring.query_service.event.PermissionUpdatedEvent,
+#           permissionDeleted:com.realtime_monitoring.query_service.event.PermissionDeletedEvent
+
+
+
+        
+# server:
+#   port: ${SERVER_PORT:9007}
+
+# eureka:
+#   instance:
+#     prefer-ip-address: true
+#   client:
+#     register-with-eureka: true
+#     fetch-registry: true
+#     service-url:
+#       defaultZone: http://localhost:8761/eureka/
+# influxdb:
+#   url: https://us-east-1-1.aws.cloud2.influxdata.com
+#   token: xsjJoBy7UA1MJKK0ZOQyQcxzoQ6N1mv72JVXnStqlXy8sKNDf4VH9MB-3PE2X5LMCsVQ64rPSJZYiC4ovyk-aw==
+#   org: docs
+#   bucket: chedly
