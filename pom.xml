@@ -29,6 +29,7 @@
 	<properties>
 		<java.version>21</java.version>
 		<spring-cloud.version>2025.1.2</spring-cloud.version>
+		<postgresql.version>42.7.13</postgresql.version>
 	</properties>
 	<dependencies>
 		
@@ -47,6 +48,9 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+			<!-- Bumped from Spring Boot 4.1.0-managed 42.7.11 to fix CVE-2026-54291
+			     (SCRAM-SHA-256-PLUS downgrade / MITM bypass), fixed in 42.7.12+. -->
+			<version>${postgresql.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -130,6 +134,12 @@
 				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<!-- in <dependencyManagement> -->
+			<dependency>
+				<groupId>org.postgresql</groupId>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
