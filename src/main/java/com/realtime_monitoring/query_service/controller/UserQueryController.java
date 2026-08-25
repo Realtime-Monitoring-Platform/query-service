@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
+@RestController
 @RequestMapping("/api/v1/query/users")
 public class UserQueryController {
-    
+
     private final UserQueryService userQueryService;
+
     // private final AuthenticationService service;
     public UserQueryController(UserQueryService userQueryService) {
         this.userQueryService = userQueryService;
@@ -40,30 +42,30 @@ public class UserQueryController {
 
     // @GetMapping("/tenant/{tenantId}")
     // public ResponseEntity<Page<UserOverviewResponse>> getAllUsersByTenantId(
-    //         @PathVariable UUID tenantId,
-    //         @PageableDefault(page = 0, size = 10) Pageable pageable,
-    //         HttpServletRequest request
-    //     ) {
-    //             System.out.println("X-User-Id: " + request.getHeader("X-User-Id"));
+    // @PathVariable UUID tenantId,
+    // @PageableDefault(page = 0, size = 10) Pageable pageable,
+    // HttpServletRequest request
+    // ) {
+    // System.out.println("X-User-Id: " + request.getHeader("X-User-Id"));
     // System.out.println("X-User-Email: " + request.getHeader("X-User-Email"));
     // System.out.println("X-User-Role: " + request.getHeader("X-User-Role"));
-    // System.out.println("X-User-Tenant-Id: " + request.getHeader("X-User-Tenant-Id"));
+    // System.out.println("X-User-Tenant-Id: " +
+    // request.getHeader("X-User-Tenant-Id"));
     // System.out.println("X-User-Name: " + request.getHeader("X-User-Name"));
-    //     Page<UserOverviewResponse> users = userQueryService.getAllUsers(pageable)
-    //             .map(UserOverviewResponse::from);
-    //     return ResponseEntity.ok(users);
+    // Page<UserOverviewResponse> users = userQueryService.getAllUsers(pageable)
+    // .map(UserOverviewResponse::from);
+    // return ResponseEntity.ok(users);
     // }
 
     @GetMapping
     public ResponseEntity<Page<UserOverviewResponse>> getAllUsers(
             @PageableDefault(page = 0, size = 10) Pageable pageable,
-            HttpServletRequest request
-        ) {
-                System.out.println("X-User-Id: " + request.getHeader("X-User-Id"));
-    System.out.println("X-User-Email: " + request.getHeader("X-User-Email"));
-    System.out.println("X-User-Role: " + request.getHeader("X-User-Role"));
-    System.out.println("X-User-Tenant-Id: " + request.getHeader("X-User-Tenant-Id"));
-    System.out.println("X-User-Name: " + request.getHeader("X-User-Name"));
+            HttpServletRequest request) {
+        System.out.println("X-User-Id: " + request.getHeader("X-User-Id"));
+        System.out.println("X-User-Email: " + request.getHeader("X-User-Email"));
+        System.out.println("X-User-Role: " + request.getHeader("X-User-Role"));
+        System.out.println("X-User-Tenant-Id: " + request.getHeader("X-User-Tenant-Id"));
+        System.out.println("X-User-Name: " + request.getHeader("X-User-Name"));
         Page<UserOverviewResponse> users = userQueryService.getAllUsers(pageable)
                 .map(UserOverviewResponse::from);
         return ResponseEntity.ok(users);
@@ -77,7 +79,7 @@ public class UserQueryController {
     @GetMapping("/tenant/{tenantId}")
     public ResponseEntity<Page<UserOverviewResponse>> getUsersByTenant(
             @PathVariable UUID tenantId,
-            
+
             @PageableDefault(page = 0, size = 10) Pageable pageable) {
         Page<UserOverviewResponse> users = userQueryService.getUsersByTenant(tenantId, pageable)
                 .map(UserOverviewResponse::from);
@@ -96,11 +98,13 @@ public class UserQueryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-//       @GetMapping("/mee")
-//   public ResponseEntity<Map<String, Object>> getCurrentUser() {
-//     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//     Map<String, Object> userInfo = service.getCurrentUserInfo(authentication.getName());
-//     userInfo.put("authorities", authentication.getAuthorities());
-//     return ResponseEntity.ok(userInfo);
-//   }
+    // @GetMapping("/mee")
+    // public ResponseEntity<Map<String, Object>> getCurrentUser() {
+    // Authentication authentication =
+    // SecurityContextHolder.getContext().getAuthentication();
+    // Map<String, Object> userInfo =
+    // service.getCurrentUserInfo(authentication.getName());
+    // userInfo.put("authorities", authentication.getAuthorities());
+    // return ResponseEntity.ok(userInfo);
+    // }
 }

@@ -40,14 +40,14 @@ public class DeviceOverview {
 
     private UUID assignedUserId;
     private String assignedUserName;
-    @Column(nullable = false)
+    
     private String deviceName;
 
     private String model;
 
     private String manufacturer;
 
-    @Column(nullable = false)
+    private String Description;
     private String hostname;
 
     private String ipAddress;
