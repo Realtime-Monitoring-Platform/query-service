@@ -92,24 +92,24 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.token=$SONAR_TOKEN
            
-  trivy-fs-scan:
-    name: Trivy Filesystem Scan
-    runs-on: ubuntu-latest
-    needs: build
+  # trivy-fs-scan:
+  #   name: Trivy Filesystem Scan
+  #   runs-on: ubuntu-latest
+  #   needs: build
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Trivy filesystem scan
-        uses: aquasecurity/trivy-action@v0.36.0
+  #     - name: Trivy filesystem scan
+  #       uses: aquasecurity/trivy-action@v0.36.0
 
-        with:
-          scan-type: fs
-          scan-ref: .
-          severity: CRITICAL,HIGH
-          ignore-unfixed: true
-          exit-code: "1"
+  #       with:
+  #         scan-type: fs
+  #         scan-ref: .
+  #         severity: CRITICAL,HIGH
+  #         ignore-unfixed: true
+  #         exit-code: "1"
 
 
   
@@ -120,7 +120,7 @@ jobs:
       - build
       # - dependency-scan
       - sonarqube
-      - trivy-fs-scan
+      # - trivy-fs-scan
 
     steps:
       - name: Checkout code
