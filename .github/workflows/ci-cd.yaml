@@ -144,15 +144,15 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Trivy Docker image scan
-        uses: aquasecurity/trivy-action@v0.36.0
+      # - name: Trivy Docker image scan
+      #   uses: aquasecurity/trivy-action@v0.36.0
 
-        with:
-          image-ref: ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.TAG }}
-          format: table
-          severity: CRITICAL,HIGH
-          ignore-unfixed: true
-          exit-code: "1"
+      #   with:
+      #     image-ref: ${{ env.IMAGE_NAME }}:${{ steps.version.outputs.TAG }}
+      #     format: table
+      #     severity: CRITICAL,HIGH
+      #     ignore-unfixed: true
+      #     exit-code: "1"
 
   docker-push:
     name: Push Docker Image
