@@ -10,6 +10,6 @@ RUN apk update && apk upgrade --no-cache
 #from trivy
 WORKDIR /app
 COPY --from=builder /app/target/*.jar /app/app.jar
-EXPOSE 9000
+EXPOSE 9007
 
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
