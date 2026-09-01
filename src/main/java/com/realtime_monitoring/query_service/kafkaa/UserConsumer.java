@@ -64,17 +64,24 @@ public class UserConsumer {
         // userOverview.setRoleName(this.roleRepository.findById(event.roleId())
         // .map(role -> role.getName())
         // .orElse(null));
-        userOverview.setRoleName(this.roleRepository.findById(event.roleId()).map(RoleOverview::getName).orElse(null));
-        userOverview.setTeamName(this.teamRepository.findById(event.teamId()).map(TeamOverview::getName).orElse(null));
-        String tenantName = tenantRepo.findById(event.tenantId())
-                .map(TenantOverview::getName)
-                .orElse(null);
+        userOverview.setRoleName(event.roleId() != null
+                ? this.roleRepository.findById(event.roleId()).map(RoleOverview::getName).orElse(null)
+                : null);
+        userOverview.setTeamName(event.teamId() != null
+                ? this.teamRepository.findById(event.teamId()).map(TeamOverview::getName).orElse(null)
+                : null);
+
+        String tenantName = event.tenantId() != null
+                ? tenantRepo.findById(event.tenantId()).map(TenantOverview::getName).orElse(null)
+                : null;
         userOverview.setTenantName(tenantName);
 
-        this.tenantRepo.findById(event.tenantId()).ifPresent(tenant -> {
-            tenant.setTeamNumber(tenant.getTeamNumber() + 1);
-            tenantRepo.save(tenant);
-        });
+        if (event.tenantId() != null) {
+            this.tenantRepo.findById(event.tenantId()).ifPresent(tenant -> {
+                tenant.setTeamNumber(tenant.getTeamNumber() + 1);
+                tenantRepo.save(tenant);
+            });
+        }
 
         if (tenantName == null) {
             log.warn("Tenant {} not found when processing user creation for user {}. TenantName left null.",
@@ -100,14 +107,16 @@ public class UserConsumer {
             userOverview.setAddress(event.Address());
             userOverview.setStatus(event.status() != null ? UserStatusOverview.valueOf(event.status()) : null);
             userOverview.setTenantId(event.tenantId());
-            userOverview
-                    .setRoleName(this.roleRepository.findById(event.roleId()).map(RoleOverview::getName).orElse(null));
-            userOverview
-                    .setTeamName(this.teamRepository.findById(event.teamId()).map(TeamOverview::getName).orElse(null));
+            userOverview.setRoleName(event.roleId() != null
+                    ? this.roleRepository.findById(event.roleId()).map(RoleOverview::getName).orElse(null)
+                    : null);
+            userOverview.setTeamName(event.teamId() != null
+                    ? this.teamRepository.findById(event.teamId()).map(TeamOverview::getName).orElse(null)
+                    : null);
 
-            String tenantName = tenantRepo.findById(event.tenantId())
-                    .map(TenantOverview::getName)
-                    .orElse(null);
+            String tenantName = event.tenantId() != null
+                    ? tenantRepo.findById(event.tenantId()).map(TenantOverview::getName).orElse(null)
+                    : null;
             userOverview.setTenantName(tenantName);
 
             if (tenantName == null) {
@@ -128,10 +137,12 @@ public class UserConsumer {
         UserOverview userOverview = userOverviewRepository.findById(event.id()).orElse(null);
         if (userOverview != null) {
             UUID tenantId = userOverview.getTenantId();
-            this.tenantRepo.findById(tenantId).ifPresent(tenant -> {
-                tenant.setTeamNumber(tenant.getTeamNumber());
-                tenantRepo.save(tenant);
-            });
+            if (tenantId != null) {
+                this.tenantRepo.findById(tenantId).ifPresent(tenant -> {
+                    tenant.setTeamNumber(tenant.getTeamNumber());
+                    tenantRepo.save(tenant);
+                });
+            }
         } else {
             log.warn("User with ID {} not found for deletion.", event.id());
         }
