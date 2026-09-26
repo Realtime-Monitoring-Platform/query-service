@@ -13,6 +13,9 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+import com.realtime_monitoring.query_service.event.AIAnalysisResultEvent;
+import com.realtime_monitoring.query_service.event.ProblemVerificationEvent;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +46,7 @@ public class KafkaConsumerConfig {
                 JsonDeserializer.TRUSTED_PACKAGES,
                 "*");
         props.put(JsonDeserializer.TYPE_MAPPINGS,
-                        "tenantCreated:com.realtime_monitoring.query_service.event.TenantCreatedEvent," +
+                "tenantCreated:com.realtime_monitoring.query_service.event.TenantCreatedEvent," +
                         "tenantUpdated:com.realtime_monitoring.query_service.event.TenantUpdatedEvent," +
                         "tenantDeleted:com.realtime_monitoring.query_service.event.TenantDeletedEvent," +
                         "deviceCreated:com.realtime_monitoring.query_service.event.DeviceCreatedEvent," +
@@ -61,13 +64,75 @@ public class KafkaConsumerConfig {
                         "permissionCreated:com.realtime_monitoring.query_service.event.PermissionCreatedEvent," +
                         "permissionUpdated:com.realtime_monitoring.query_service.event.PermissionUpdatedEvent," +
                         "permissionDeleted:com.realtime_monitoring.query_service.event.PermissionDeletedEvent," +
-                        "notificationCreated:com.realtime_monitoring.query_service.event.NotificationCreatedEvent"
+                        "notificationCreated:com.realtime_monitoring.query_service.event.NotificationCreatedEvent," +
+                        "aiAnalysisResult:com.realtime_monitoring.query_service.event.AIAnalysisResultEvent"
 
         );
 
-
         return new DefaultKafkaConsumerFactory<>(props);
-        
+
+    }
+
+    @Bean
+    public ConsumerFactory<String, AIAnalysisResultEvent> aiAnalysisConsumerFactory() {
+
+        Map<String, Object> props = new HashMap<>();
+
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(
+                ConsumerConfig.GROUP_ID_CONFIG,
+                "query-service-ai-analysis");
+
+        JsonDeserializer<AIAnalysisResultEvent> jsonDeserializer = new JsonDeserializer<>(AIAnalysisResultEvent.class);
+
+        jsonDeserializer.addTrustedPackages(
+                "com.realtime_monitoring.query_service.event");
+
+        // FastAPI sends plain JSON, without Spring Kafka type headers
+        jsonDeserializer.setUseTypeHeaders(false);
+
+        return new DefaultKafkaConsumerFactory<>(
+                props,
+                new StringDeserializer(),
+                jsonDeserializer);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, AIAnalysisResultEvent> aiAnalysisKafkaListenerContainerFactory(
+            ConsumerFactory<String, AIAnalysisResultEvent> aiAnalysisConsumerFactory) {
+
+        ConcurrentKafkaListenerContainerFactory<String, AIAnalysisResultEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
+
+        factory.setConsumerFactory(aiAnalysisConsumerFactory);
+
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, ProblemVerificationEvent> problemVerificationConsumerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "query-service-ai-verification");
+
+        JsonDeserializer<ProblemVerificationEvent> jsonDeserializer =
+                new JsonDeserializer<>(ProblemVerificationEvent.class);
+        jsonDeserializer.addTrustedPackages("com.realtime_monitoring.query_service.event");
+        jsonDeserializer.setUseTypeHeaders(false);
+
+        return new DefaultKafkaConsumerFactory<>(
+                props,
+                new StringDeserializer(),
+                jsonDeserializer);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ProblemVerificationEvent>
+            problemVerificationKafkaListenerContainerFactory(
+                    ConsumerFactory<String, ProblemVerificationEvent> problemVerificationConsumerFactory) {
+        ConcurrentKafkaListenerContainerFactory<String, ProblemVerificationEvent> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(problemVerificationConsumerFactory);
+        return factory;
     }
 
     @Bean

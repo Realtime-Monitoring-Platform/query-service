@@ -13,6 +13,7 @@ import com.realtime_monitoring.query_service.model.TenantOverview;
 import com.realtime_monitoring.query_service.repository.TenantOverviewRepository;
 import com.realtime_monitoring.query_service.repository.UserOverviewRepository;
 
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;

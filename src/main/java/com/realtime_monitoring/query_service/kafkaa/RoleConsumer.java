@@ -21,6 +21,7 @@ import com.realtime_monitoring.query_service.repository.TenantOverviewRepository
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
