@@ -13,4 +13,5 @@ public class MetricsDTO {
     private Instant timestamp;
     private double cpu;
     private double ram;
+    private MemoryMetricsDTO memory;
 }
